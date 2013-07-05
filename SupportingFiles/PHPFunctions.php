@@ -1,6 +1,6 @@
 <?php
-putenv("FACEBOOK_APP_ID=165398066942056");
-putenv("FACEBOOK_SECRET=b5cfa28cac0cd21188b0118dfc24839c");
+putenv("FACEBOOK_APP_ID=xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx");
+putenv("FACEBOOK_SECRET=xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx");
 putenv("HomePage=http://www.ryangillespie.co.uk/CollageMaker/index.php");
 putenv("LogoutPage=http://www.ryangillespie.co.uk/CollageMaker/SupportingFiles/Logout.php");
 putenv("CreateCollagePage=http://www.ryangillespie.co.uk/CollageMaker/CreateCollage.php");
