@@ -1,9 +1,9 @@
 <?php
-	putenv("FACEBOOK_APP_ID=xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx");
-	putenv("FACEBOOK_SECRET=xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx);
-	putenv("HomePage=http://www.ryangillespie.co.uk/CollageMaker/index.php");
-	putenv("LogoutPage=http://www.ryangillespie.co.uk/CollageMaker/Logout.php");
-	putenv("CreateCollagePage=http://www.ryangillespie.co.uk/CollageMaker/CreateCollage.php");
+putenv("FACEBOOK_APP_ID=165398066942056");
+putenv("FACEBOOK_SECRET=b5cfa28cac0cd21188b0118dfc24839c");
+putenv("HomePage=http://www.ryangillespie.co.uk/CollageMaker/index.php");
+putenv("LogoutPage=http://www.ryangillespie.co.uk/CollageMaker/SupportingFiles/Logout.php");
+putenv("CreateCollagePage=http://www.ryangillespie.co.uk/CollageMaker/CreateCollage.php");
 
 function TotalNumberOfCollages() {
 	$xmlDoc = new DOMDocument();
@@ -164,37 +164,29 @@ function MostDownloaded($UserID, $Friends) {
 }
 
 
-function CreateImageEmail($ImgPath) {
-    $Boundary = '--' . md5(uniqid(time()));
-    $Headers = 'MIME-Version: 1.0\n';
-    $Headers .= 'Content-Type: multipart/mixed; boundary="' . $Boundary . '"\n';
-    $Headers .= 'From: admin@CollageMaker.co.uk\r\n';
-    $Multipart = '';
-    $Multipart .= "--$boundary\n";
-    $Multipart .= 'Content-Type: text/html; charset=utf-8\n';
-    $Multipart .= 'Content-Transfer-Encoding: Quot-Printed\n\n';
-    $Multipart .= ''; // Message body goes here
-    $Multipart .= '\n\n';
+function CreateImageEmail($UserName, $ImgPath) {
+    $Boundary = "--" . md5(uniqid(time())); // Unique boundry string - random hash
+    $Headers = "MIME-Version: 1.0\r\n";
+	$Headers .= "From: admin@ryangillespie.co.uk\r\n";
+    $Headers .= "Content-Type: multipart/mixed; boundary=\"" . $Boundary . "\"\n";
+    
+    $Multipart = "--$Boundary\n";
+    $Multipart .= "Content-Type: text/html; charset=utf-8\n";
+    $Multipart .= "Content-Transfer-Encoding: Quot-Printed\n\n";
+    $Multipart .= "Thankyou $UserName, <br><br>
+	Please donate <a href='https://www.paypal.com/cgi-bin/webscr?cmd=_donations&business=ryanmichaelgillespie%40hotmail%2ecom&lc=GB&item_name=Ryan%20Gillespie&currency_code=GBP&bn=PP%2dDonationsBF%3abtn_donate_LG%2egif%3aNonHosted'>here</a>.<br><br>
+	Kind Regards,<br>Ryan Gillespie"; // Message body/html goes here
+    $Multipart .= "\n\n";
 
-    $FileAttatchment = '../CollageMakerNew/' . $ImgPath; //put the relative path to the file here on your server
-    $FileName = time(); //just the name of the file here
-    $FileType = filetype($FileAttatchment);
-    $Fp = fopen($FileAttatchment, 'r');
-    if (!$Fp) {
-        return false;
-    }
-    $File = fread($Fp, filesize($FileAttatchment));
-    fclose($Fp);
-
-    $Message_Part = 'Content-Type: image/png';
-    $Message_Part .= '; file_name = "'.$FileName.'"\n';
-    $Message_Part .= 'Content-ID: <' . md5("<img src='" . $ImgPath . "'>") . ">\n";
-    $Message_Part .= 'Content-Transfer-Encoding: base64\n';
-    $Message_Part .= 'Content-Disposition: inline; filename = "' . basename($ImgPath) . '"\n\n';
-    $Message_Part .= chunk_split(base64_encode($File)) . '\n';
-    $Multipart .= '--' . $Boundary . '\n' . $Message_Part . '\n';
-
-    $Multipart .= '--' . $boundary . '--\n';
+    $FileAttatchment = "../CollageMaker/" . $ImgPath; // Relative file path to image
+    $Message_Part = "Content-Type: image/png; file_name=\"" . basename($ImgPath) . "\"\n";
+    $Message_Part .= "Content-ID: <" . md5("<img src=\"" . $ImgPath . "\">") . ">\n";
+    $Message_Part .= "Content-Transfer-Encoding: base64\n";
+    $Message_Part .= "Content-Disposition: inline; filename =\"" . basename($ImgPath) . "\"\n\n";
+    $Message_Part .= chunk_split(base64_encode(file_get_contents($FileAttatchment))) . "\n";
+    $Multipart .= "--" . $Boundary . "\n" . $Message_Part . "\n";
+    $Multipart .= "--" . $Boundary . "--\n";
+	
     return array('multipart' => $Multipart, 'headers' => $Headers);
 }
 

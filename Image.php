@@ -16,8 +16,11 @@
 	</script>
 <body>
 <div id="fb-root"></div>
+<<div class='ViewSourceContainer'>
+	<a style='color:#FFF; padding:5px;' href='https://github.com/rmgillespie/CollageMaker'>View source</a>
+</div>
 <?php
-include 'Header.php';?>
+include 'SupportingFiles/Header.php';?>
 	
 <div id="FacebookAppContainer">
 	<div class='FacebookAppContainerPadding'>
@@ -52,11 +55,9 @@ if ($Logged_In) { // User is logged in
 					if (file_exists($ThumbnailPath) && is_readable($ThumbnailPath)) {
 						unlink($ThumbnailPath);
 					}
-					
 					deleteCollageDetails($ImagePath);
 					$Output = '<p style="color:green;">Deleted successfully.</p>
 								<meta http-equiv="refresh" content="0;url=' . getenv("HomePage") . '"/>';
-
 				} else { // Deletion failed
 					$Output = '<p>An error occured when attempting to delete the file. Please try again.</p>'; $Redirect = true;
 				}
@@ -253,7 +254,7 @@ function updateDownloadCounter($XMLFilePath, $ImageID) {
 	</div>
 </div>
 
-<?php include 'Footer.php'; ?>
+<?php include 'SupportingFiles/Footer.php'; ?>
 </body>
 </html>
 

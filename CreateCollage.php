@@ -19,8 +19,11 @@ if (!ini_get('safe_mode')) {
 		</script>
 <body>
 <div id="fb-root"></div>
+<div class='ViewSourceContainer'>
+	<a style='color:#FFF; padding:5px;' href='https://github.com/rmgillespie/CollageMaker'>View source</a>
+</div>
 <?php
-include 'Header.php'; ?>
+include 'SupportingFiles/Header.php'; ?>
 
 <div id="FacebookAppContainer">
 	<div class='FacebookAppContainerPadding'>
@@ -324,7 +327,7 @@ include 'Header.php'; ?>
 					$Thumbnail_File_Path = $Thumbnail_Directory .  "/" . $Img_ID . '.png';			
 					if ($Created_Successfully &&(imageToFile($Final_Image, $Image_Directory, $Image_File_Path)) && (imageToFile($Thumbnail_Image, $Thumbnail_Directory, $Thumbnail_File_Path))) { // True if collage was succesfully saved/created
 						if ($Send_Email_Bool == 'true') { // True if the user requested an email to be sent containing the photo collage
-							$Email_Content = CreateImageEmail($Image_File_Path);
+							$Email_Content = CreateImageEmail($FB->User_Name, $Image_File_Path);
 							if (!mail($User_Email, 'My photo collage', $Email_Content['multipart'], $Email_Content['headers'])) {
 									echo '<p class="Center">An error occurred when sending an email to '.$User_Email.'</p>' . $Redirect_HTML;
 							}
@@ -363,6 +366,6 @@ include 'Header.php'; ?>
 	</div>
 </div>
 
-<?php include 'Footer.php'; ?>
+<?php include 'SupportingFiles/Footer.php'; ?>
 </body>
 </html>

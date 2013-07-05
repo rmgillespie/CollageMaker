@@ -1,4 +1,4 @@
-<?php require_once 'SupportingFiles/PHPFunctions.php'; require_once("SupportingFiles/facebook-php-sdk-master/src/facebook.php");
+<?php require_once 'PHPFunctions.php'; require_once("facebook-php-sdk-master/src/facebook.php");
 
 // Destroy the Facebook session and delete the cookie
 $Config = array();

@@ -60,8 +60,11 @@
 	</head>
 <body>
 <div id="fb-root"></div>
+<div class='ViewSourceContainer'>
+	<a style='color:#FFF; padding:5px;' href='https://github.com/rmgillespie/CollageMaker'>View source</a>
+</div>
 <?php
-include 'Header.php';	
+include 'SupportingFiles/Header.php';	
 
 /**************** Facebook ***************/
 $FB = new Facebook_Login(); // Create new FB login class
@@ -113,7 +116,7 @@ if ($Logged_In) { // User is logged in ?>
 	</div> <?php
 } ?>
 
-<?php include 'Footer.php'; ?>
+<?php include 'SupportingFiles/Footer.php'; ?>
 </body>
 </html>
 	

@@ -16,8 +16,11 @@
 	</head>
 <body>
 <div id="fb-root"></div>
+<div class='ViewSourceContainer'>
+	<a style='color:#FFF; padding:5px;' href='https://github.com/rmgillespie/CollageMaker'>View source</a>
+</div>
 <?php
-include 'Header.php';	
+include 'SupportingFiles/Header.php';	
 
 /**************** Facebook ***************/
 $FB = new Facebook_Login(); // Create new FB login class
@@ -35,7 +38,8 @@ if ($Logged_In) { // User is logged in ?>
 		<div class='FacebookAppContainerPadding'>
 			<div id='FriendSelector'>
 				<p style='text-align:center; text-decoration:underline;'><b>Select friends:</b></p>
-				<input style=" border:1px solid #000; width:100%; color:#3B7DC1;" name='search' value='' id='id_search' placeholder='Search'/>
+				<input style="-moz-border-radius:5px; -moz-border-radius:5px; border-radius:5px;
+	border-radius:5px; border:1px solid #000; width:100%; color:#3B7DC1;" name='search' value='' id='id_search' placeholder='Search'/>
 				<div style='height:200px; width:100%; overflow:auto; border:1px solid #000;'>
 					<table id='FacebookFriends' class='tablesorter' style="width:100%;" cellspacing="0" cellpadding="3" rules="rows">
 						<thead><tr>
@@ -88,7 +92,7 @@ if ($Logged_In) { // User is logged in ?>
 				<p class="MenuHeader"><b>Other:</b></p><hr class="MenuBreaker"/>
 
 				<input id='sendemail' type='checkbox' onChange='SendEmailChanged()'/><p style='display:inline; font-size:12px;'> Email me the image</p><br/>
-				<div id='EmailField'><p style='display:inline; font-size:12px;'><b>Email: </b></p><input class="BoxFormat" id='email' style='display:inline;' type='text' size='25' onChange='Validate(this)' value='' placeholder='Enter your email'/></div>
+				<div id='EmailField'><p style='display:inline; font-size:12px;'><b>Email: </b></p><input class="BoxFormat" id='email' style='display:inline;' type='text' size='25' onKeyPress='Validate(this)' onChange='Validate(this)' value='' placeholder='Enter your email'/></div>
 
 				<div id='Output' style='color:#FF0000;'></div>
 			</div>
@@ -111,11 +115,11 @@ if ($Logged_In) { // User is logged in ?>
 	$Friend_Str = '';
 	$No_Of_Friends_Images = 0;
 	for ($i = 0; $i < count($Friends['data']); $i++) { // For every friend of the user
-		$Thumbnail_Directory = 'imgs/' . $Friends['data'][$i]['id'] . '/Thumbnails/';
-		if (is_dir($Thumbnail_Directory)) { // True if thumbnail directory exists
-			$Images = glob($Thumbnail_Directory . "*.png"); // All thumbnails to array
+		$Directory = 'imgs/' . $Friends['data'][$i]['id'] . '/';
+		if (is_dir($Directory)) { // True if thumbnail directory exists
+			$Images = glob($Directory . "*.png"); // All thumbnails to array
 			$No_Of_Friends_Images += count($Images);
-			$Friend_Str .= '<p font-size:12px;><b>' . $Friends['data'][$i]['name'] . ':</b></p>';
+			//$Friend_Str .= '<p font-size:12px;><b>' . $Friends['data'][$i]['name'] . ':</b></p>';
 			foreach ($Images as $Image) {
 				$Img_Src_Array = explode("/", $Image);
 				$Thumbnail_Src = 'imgs/' . $Img_Src_Array[1] . '/Thumbnails/' . $Img_Src_Array[2];
@@ -123,7 +127,7 @@ if ($Logged_In) { // User is logged in ?>
 					<a title='View collage' alt='Collage photo - " . $Image . "' href='View.php?View=" . $Image . "'>
 					<img style='padding:4px 2px 4px 2px;' width='96px' height='92px' src='" . $Thumbnail_Src . "'/></a>
 					
-					<form class='showme' style='margin-left:2px; margin-right:2px; width:96px; height:20px; position:relative; bottom:121px;' action='Image.php?Url=" . $Image . "' method='POST'>
+					<form class='showme' style='margin-left:2px; margin-right:2px; width:96px; height:20px; position:relative; bottom:101px;' action='Image.php?Url=" . $Image . "' method='POST'>
 						<input type='hidden' name='Url' value='" . $Image . "'/>
 						<input style='width:96px; height:20px;' type='submit' name='Type' value='Download'/>
 					</form>
@@ -133,18 +137,17 @@ if ($Logged_In) { // User is logged in ?>
 	}
 
 	$User_Str = '';
-	$Download_All_HTML = '';
+	//$Download_All_HTML = '';
 	$No_Of_User_Images = 0;
 	$Directory = "imgs/" . $User_ID . '/';
 	if (is_dir($Directory)) { // True if user directory exists
 		$Images = glob($Directory . "*.png"); // All thumbnails to array
 		$No_Of_User_Images = count($Images);	
-		if ($No_Of_User_Images > 2) { // If at least two image exists, include download all button
+		/*if ($No_Of_User_Images > 2) { // If at least two image exists, include download all button
 			$Download_All_HTML = "<form style='width:100px;' action='Image.php?Url=ALL&ID=" . $User_ID . "' method='POST'>
 				<input style='width:100px;' type=submit name='Type' value='Download All'/>
 			</form>";
-		}
-		
+		}*/
 		//<p style='font-size:10px;'>" . date ("F d Y H:i:s", filemtime($Image)) . "</p>
 		foreach ($Images as $Image) {
 			$Img_Src_Array = explode("/", $Image);
@@ -218,7 +221,7 @@ if ($Logged_In) { // User is logged in ?>
 	<?php
 } ?>
 
-<?php include 'Footer.php'; ?>
+<?php include 'SupportingFiles/Footer.php'; ?>
 
 <div id="Spinner" class="LoadSpinnerContainer"  style="display:none;">
 	<div class="bar">

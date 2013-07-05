@@ -16,8 +16,11 @@
     </head>
 <body>
 <div id="fb-root"></div>
+<div class='ViewSourceContainer'>
+	<a style='color:#FFF; padding:5px;' href='https://github.com/rmgillespie/CollageMaker'>View source</a>
+</div>
 <?php
-include 'Header.php'; ?>
+include 'SupportingFiles/Header.php'; ?>
 	
 <div id="FacebookAppContainer">
 	<div class='FacebookAppContainerPadding'>
@@ -125,7 +128,7 @@ echo $Output; ?>
 	</div>
 </div>
 
-<?php include 'Footer.php'; ?>
+<?php include 'SupportingFiles/Footer.php'; ?>
 </body>
 </html>
 
